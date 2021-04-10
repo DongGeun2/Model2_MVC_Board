@@ -15,7 +15,7 @@ public class Board_ReplyOk_Service implements Action {
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) {
 		
 		
-		response.setContentType("text/html;charset=UTF-8");
+
 		//데이터 받기
 		String writer = request.getParameter("reply_writer");
 		String content = request.getParameter("reply_content");

@@ -2,7 +2,7 @@
 
 		<div id="header">
             <div class="title">
-                <a href="index.jsp">DEMO WEBSITE</a>
+                <a href="index.jsp">3조 게시판</a>
             </div>
             <div class="links">
                 <a href="#"><%= request.getContextPath() %></a>

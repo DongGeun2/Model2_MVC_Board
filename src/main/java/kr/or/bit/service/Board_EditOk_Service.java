@@ -13,8 +13,7 @@ public class Board_EditOk_Service implements Action {
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) {
 		
-		
-		response.setContentType("text/html;charset=UTF-8");
+
 		ActionForward actionForward = new ActionForward();
 		String idx = request.getParameter("idx");
 		

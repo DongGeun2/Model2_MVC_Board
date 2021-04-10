@@ -25,8 +25,7 @@ public class Board_ReWriteOk_Service implements Action {
 		String cpage = request.getParameter("cp"); //current page
 		String pagesize = request.getParameter("ps"); //pagesize
 		
-		
-		response.setContentType("text/html;charset=UTF-8");
+	
 		Board board = new Board(idx, writer, pwd, subject, content, null, 0, filename, 0, homepage, email, 0, 0, 0);
 		
 		ActionForward actionForward = new ActionForward();
