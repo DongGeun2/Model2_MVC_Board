@@ -8,7 +8,7 @@
 	String subject = request.getParameter("subject"); // 답글의 제목으로 사용
 	
 	if(idx == null || subject == null || idx.trim().equals("") || subject.trim().equals("")){
-		response.sendRedirect(request.getContextPath()+"/board/redirect.jsp");
+		response.sendRedirect(request.getContextPath()+"/WEB-INF/views/board/redirect.jsp");
 		return;
 	}
 	if(cpage == null || pagesize == null){
@@ -21,6 +21,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="path" value="<%=request.getContextPath()%>" />
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -54,6 +59,25 @@
 		document.bbs.submit();
 
 	}
+	$(function(){
+
+		$('#summernote').summernote({
+
+		placeholder: '글을 입력 하세요..',
+
+		tabsize: 2,
+
+		height: 300, // set editor height
+
+		minHeight: 300, // set minimum height of editor
+
+		maxHeight: 300, // set maximum height of editor
+
+		focus: true 
+
+		}); 
+
+		});
 </SCRIPT>
 </head>
 <body>
@@ -62,7 +86,7 @@
 	%>
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
-			<form name="bbs" action="${ path }/BoardReWriteOk.board" method="POST">
+			<form name="bbs" action="${ path }/BoardReWriteOk.board" method="POST" enctype="multipart/form-data">
 			
 				<input type="hidden" name="cp" value="<%= cpage %>" /> 
 				<input type="hidden" name="ps" value="<%= pagesize %>" /> 
@@ -100,7 +124,7 @@
 					<tr>
 						<td width="20%" align="center">글내용</td>
 						<td width="80%" align="left">
-							<textarea rows="10" cols="60" name="content"></textarea></td>
+							<textarea rows="10" cols="60" name="content" id="summernote"></textarea></td>
 
 					</tr>
 					<tr>

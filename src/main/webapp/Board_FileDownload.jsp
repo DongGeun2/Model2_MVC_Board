@@ -10,11 +10,11 @@
     //물리적 경로 얻기
     String savepath = "upload";
     String downloadpath = request.getRealPath(savepath);
-    String FilePath = downloadpath + "//" + filename;
+    String FilePath = downloadpath + "/" + filename;
     
-    out.print(downloadpath +"<br>");
-    out.print(FilePath); //실경로 + 파일명
-    
+    /* out.print(downloadpath +"<br>");
+    out.print(FilePath); //실경로 + 파일명 */
+   	System.out.println(FilePath);
     
     //IO작업 하기
     

@@ -35,7 +35,7 @@ public class Board_ReplyOk_Service implements Action {
 		 	String msg="";
 		    String url="";
 		     
-		    actionForward.setPath("/board/redirect.jsp");
+		    actionForward.setPath("/WEB-INF/views/board/redirect.jsp");
 		    
 		    request.setAttribute("board_msg",msg);
 		    request.setAttribute("board_url",url);

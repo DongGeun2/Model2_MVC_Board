@@ -86,7 +86,7 @@ public class Board_WriteOk_Service implements Action {
 			    request.setAttribute("board_msg",msg);
 			    request.setAttribute("board_url", url);
 			    
-			    actionForward.setPath("/board/redirect.jsp");
+			    actionForward.setPath("/WEB-INF/views/board/redirect.jsp");
 			    
 		} catch (NamingException | IOException e) {
 			// TODO Auto-generated catch block

@@ -18,12 +18,14 @@
 </head>
 <body>
 	<c:set var="path" value="<%=request.getContextPath()%>" />
+	
+	
 	<%
 		String idx= request.getParameter("idx"); //글번호 받기
 		
 		//글 번호를 가지고 오지  않았을 경우 예외처리
 		if(idx == null || idx.trim().equals("")){
-			response.sendRedirect(request.getContextPath()+"/board/redirect.jsp");
+			response.sendRedirect(request.getContextPath()+"/WEB-INF/views/board/redirect.jsp");
 			return; //더 이상 아래 코드가 실행되지 않고 클라이언트에게 바로 코드 전달
 		}
 		
@@ -55,12 +57,16 @@
 		
 		
 		//데이터 조회 (1건 (row))
-		Board board = boardDao.getContent(Integer.parseInt(idx));
+		
 	
 	%>
 	<%
 		pageContext.include("/include/header.jsp");
 	%>
+	<c:set var="idx" value = "<%=idx%>" />
+	<c:set var="board" value="<%=boardDao.getContent(Integer.parseInt(idx))%>" />
+	
+
 	<div id="pageContainer">
 		<div style="padding-top: 30px; text-align: center">
 			<center>
@@ -68,52 +74,47 @@
 				<table width="80%" border="1">
 					<tr>
 						<td width="20%" align="center"><b> 글번호 </b></td>
-						<td width="30%"><%=idx%></td>
+						<td width="30%">${ idx }</td>
 						<td width="20%" align="center"><b>작성일</b></td>
-						<td><%=board.getWritedate()%></td>
+						<td>${ board.writedate }</td>
 					</tr>
 					<tr>
 						<td width="20%" align="center"><b>글쓴이</b></td>
-						<td width="30%"><%=board.getWriter()%></td>
+						<td width="30%">${ board.writer }</td>
 						<td width="20%" align="center"><b>조회수</b></td>
-						<td><%=board.getReadnum()%></td>
+						<td>${ board.readnum }</td>
 					</tr>
 					<tr>
 						<td width="20%" align="center"><b>홈페이지</b></td>
-						<td><%=board.getHomepage()%></td>
+						<td>${ board.homepage }</td>
 						<td width="20%" align="center"><b>첨부파일</b></td>
-						<td><a href="${ path }/board/Board_FileDownload.jsp?file_name=<%=board.getFilename()%>"><%=board.getFilename()%></a></td>
+						<td><a href="${ path }/Board_FileDownload.jsp?file_name=${ board.filename }">${ board.filename }</a></td>
 					</tr>
 					<tr>
 						<td width="20%" align="center"><b>제목</b></td>
-						<td colspan="3"><%=board.getSubject()%></td>
+						<td colspan="3">${ board.subject }</td>
 					</tr>
 					<tr height="100">
 						<td width="20%" align="center"><b>글내용</b></td>
 						<td colspan="3">
-							<%
-								String content = board.getContent();
-								if(content != null){
-									content = content.replace("\n", "<br>");
-								}
-								out.print(content);
-							%>
+							
+							${ board.content }
 
 						</td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center"><a
 							href= "${ path }/BoardList.board?cp=<%=cpage%>&ps=<%=pagesize%>">목록가기</a> 
-							|<a href="${ path }/BoardEdit.board?idx=<%=idx%>&cp=<%=cpage%>&ps=<%=pagesize%>">편집</a>
-							|<a href="${ path }/BoardDelete.board?idx=<%=idx%>&cp=<%=cpage%>&ps=<%=pagesize%>">삭제</a>
-							|<a href="${ path }/BoardReWrite.board?idx=<%=idx%>&cp=<%=cpage%>&ps=<%=pagesize%>&subject=<%=board.getSubject()%>">답글</a>
+							|<a href="${ path }/BoardEdit.board?idx=${ idx }&cp=<%=cpage%>&ps=<%=pagesize%>">편집</a>
+							|<a href="${ path }/BoardDelete.board?idx=${ idx }&cp=<%=cpage%>&ps=<%=pagesize%>">삭제</a>
+							|<a href="${ path }/BoardReWrite.board?idx=${ idx }&cp=<%=cpage%>&ps=<%=pagesize%>&subject=${ board.subject }">답글</a>
 						</td>
 					</tr>
 				</table>
 				<form name="reply" action="${ path }/BoardReplyOk.board" class="reply"
 					method="POST">
 					<!-- hidden 태그  값을 숨겨서 처리  -->
-					<input type="hidden" name="idx" value="<%=idx%>"> <input
+					<input type="hidden" name="idx" value="${ idx }"> <input
 						type="hidden" name="userid" value="">
 					<!-- 추후 필요에 따라  -->
 					<!-- hidden data -->
@@ -137,7 +138,8 @@
 					<tr>
 						<th colspan="2">REPLY LIST</th>
 					</tr>
-				</table>
+				</table> 
+				
 				<!--  꼬리글 달기 테이블 -->
 				
 				<script type="text/javascript">
@@ -146,8 +148,10 @@
 						getReplyList();
 						addreply();
 					})
-						function getReplyList(){
-							$(".Reply").find("tr").not(":first").remove();
+					
+					
+					function getReplyList(){
+						$(".Reply").find("tr").not(":first").remove();
 						$.ajax({
 							url : "Replylist",
 							data : {idx:<%=idx%>},
@@ -203,6 +207,45 @@
 						})
 					})
 					}
+					
+					
+					function ReplyDelete(data){
+						if (data.delPwd.value == "") {
+							alert("비밀번호를 입력하세요");
+							data.delPwd.focus();
+							return false;
+						}
+						var datas = {
+								idx : data.idx.value,
+								no : data.no.value,
+								delPwd : data.delPwd.value
+								
+						}
+						
+						console.log(datas);
+						
+						$.ajax({
+							url : "ReplyDelete",
+							data : datas,
+							type : "GET",
+							dataType : "html", // POIN
+							success : function(data) {
+								if(data == "true"){
+									alert("댓글 삭제 성공");
+									getReplyList();
+								}else{
+									alert("댓글 삭제 실패");
+								}
+
+							},
+							error : function(xhr) {
+								console.log(xhr.status + "ERROR");
+							}
+							
+						})
+					}
+					
+					
 				</script>
 				
 				
@@ -212,7 +255,7 @@
 </body>
 </html>
 
-
+ 
 
 
 

@@ -44,12 +44,12 @@ public class BoardConroller extends HttpServlet {
 		if(URL.equals("/BoardList.board")) {
 			//System.out.println("boradlist");
 			actionForward = new ActionForward();
-			actionForward.setPath("/board/board_list.jsp");
+			actionForward.setPath("/WEB-INF/views/board/board_list.jsp");
 		
 		// 게시판 작성	
 		}else if(URL.equals("/BoardWrite.board")) {
 			actionForward = new ActionForward();
-			actionForward.setPath("/board/board_write.jsp");
+			actionForward.setPath("/WEB-INF/views/board/board_write.jsp");
 		
 		// 게시판 작성확인
 		}else if(URL.equals("/BoardWriteOk.board")) {
@@ -59,12 +59,12 @@ public class BoardConroller extends HttpServlet {
 		// 게시판 상세보기
 		}else if(URL.equals("/BoardContent.board")) {
 			actionForward = new ActionForward();
-			actionForward.setPath("/board/board_content.jsp");
+			actionForward.setPath("/WEB-INF/views/board/board_content.jsp");
 		
 		// 게시판 수정
 		}else if(URL.equals("/BoardEdit.board")) {
 			actionForward = new ActionForward();
-			actionForward.setPath("/board/board_edit.jsp");
+			actionForward.setPath("/WEB-INF/views/board/board_edit.jsp");
 			
 		// 게시판 수정 확인	
 		}else if(URL.equals("/BoardEditOk.board")) {
@@ -84,7 +84,7 @@ public class BoardConroller extends HttpServlet {
 		// 게시판 삭제	
 		}else if(URL.equals("/BoardDelete.board")) {
 			actionForward = new ActionForward();
-			actionForward.setPath("/board/board_delete.jsp");
+			actionForward.setPath("/WEB-INF/views/board/board_delete.jsp");
 			
 		// 게시판 삭제 확인	
 		}else if(URL.equals("/BoardDeleteOk.board")) {
@@ -94,7 +94,7 @@ public class BoardConroller extends HttpServlet {
 		// 답글 달기
 		}else if(URL.equals("/BoardReWrite.board")) {
 			actionForward = new ActionForward();
-			actionForward.setPath("/board/board_rewrite.jsp");
+			actionForward.setPath("/WEB-INF/views/board/board_rewrite.jsp");
 		
 		// 답글 달기 확인	
 		}else if(URL.equals("/BoardReWriteOk.board")) {

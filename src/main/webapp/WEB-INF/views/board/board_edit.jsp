@@ -6,7 +6,7 @@
 	//수정하기
 	String idx = request.getParameter("idx");
 	if(idx == null || idx.trim().equals("")){
-		response.sendRedirect(request.getContextPath()+"/board/redirect.jsp");
+		response.sendRedirect(request.getContextPath()+"/WEB-INF/views/board/redirect.jsp");
 		return;
 	}
 	BoardDao boardDao = new BoardDao();
@@ -21,6 +21,7 @@
 	
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,6 +29,11 @@
 	<title>Insert title here</title>
 	<link rel="Stylesheet"
 	href="<%=request.getContextPath()%>/style/default.css" />
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 	<script type="text/javascript">
 	function editCheck() {
 
@@ -64,6 +70,25 @@
 		document.edit.submit();
 
 	}
+	$(function(){
+
+		$('#summernote').summernote({
+
+		placeholder: '글을 입력 하세요..',
+
+		tabsize: 2,
+
+		height: 300, // set editor height
+
+		minHeight: 300, // set minimum height of editor
+
+		maxHeight: 300, // set maximum height of editor
+
+		focus: true 
+
+		}); 
+
+		});
 </script>
 </head>
 <body>
@@ -71,7 +96,10 @@
 		pageContext.include("/include/header.jsp");
 	%>
 	
-	<c:set var="path" value="<%=request.getContextPath()%>" />
+	<c:set var="idx" value="${requestScope.idx}" />
+	<c:set var="idx" value = "<%=idx%>" />
+	<c:set var="board" value="<%=boardDao.getContent(Integer.parseInt(idx))%>" />
+	
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
 			<!-- form 시작 -->
@@ -81,19 +109,19 @@
 						<tr>
 							<td width="20%" align="center"><b> 글번호 </b></td>
 							<td width="30%">
-									<%=idx%> 
-									<input type="hidden" name="idx" value="<%=idx%>"></td>
+									${idx} 
+									<input type="hidden" name="idx" value="${idx}"></td>
 							<td width="20%" align="center"><b>작성일</b></td>
-							<td><%=board.getWritedate()%></td>
+							<td>${board.writedate}</td>
 						</tr>
 						<tr>
 							<td width="20%" align="center"><b>글쓴이</b></td>
 							<td width="30%">
-								<input type="text" name="writer" value="<%=board.getWriter()%>">
+								<input type="text" name="writer" value="${board.writer}">
 							</td>
 							<td width="20%" align="center"><b>홈페이지</b></td>
 							<td>
-								<input type="text" name="homepage" value="<%=board.getHomepage()%>">
+								<input type="text" name="homepage" value="${board.homepage}">
 							</td>
 						</tr>
 						<tr>
@@ -103,26 +131,26 @@
 							</td>
 							<td width="20%" align="center"><b>이메일</b></td>
 							<td>
-								<input type="text" name="email" value="<%=board.getEmail()%>">
+								<input type="text" name="email" value="${board.email}">
 							</td>
 						</tr>
 
 						<tr>
 							<td width="20%" align="center"><b>제목</b></td>
 							<td colspan="3">
-								<input type="text" name="subject" value="<%=board.getSubject()%>" size="40">
+								<input type="text" name="subject" value="${board.subject}" size="40">
 							</td>
 						</tr>
 						<tr height="100">
 							<td width="20%" align="center"><b>글내용</b></td>
 							<td colspan="3">
-								<textarea rows="7" cols="50" name="content"><%=board.getContent()%></textarea>
+								<textarea rows="7" cols="50" name="content" id="summernote">${board.content}</textarea>
 							</td>
 						</tr>
 
 						<tr>
 							<td width="20%" align="center"><b>첨부파일</b></td>
-							<td colspan="3"><%=board.getFilename()%> (<%=board.getFilesize()%>bytes)<br /> 
+							<td colspan="3">${board.filename} (${board.filename}bytes)<br /> 
 								<input type="file" name="filename">
 							</td>
 						</tr>

@@ -15,7 +15,7 @@
 </head>
 <body>
 	<%
-		pageContext.include("include/header.jsp");
+		pageContext.include("/WEB-INF/views/include/header.jsp");
 	%>
 	<div id="pageContainer">
 		<h3>UI(Css 공통 페이지 적용 확인)</h3>

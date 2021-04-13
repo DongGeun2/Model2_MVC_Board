@@ -6,6 +6,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시판 글쓰기</title>
 	<link rel="Stylesheet" href="<%=request.getContextPath()%>/style/default.css" />
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 	<SCRIPT type="text/javascript">
 
 function check(){
@@ -32,8 +37,28 @@ function check(){
     }
  
     document.bbs.submit();
- 
+ 	
 }
+
+$(function(){
+
+	$('#summernote').summernote({
+
+	placeholder: '글을 입력 하세요..',
+
+	tabsize: 2,
+
+	height: 300, // set editor height
+
+	minHeight: 300, // set minimum height of editor
+
+	maxHeight: 300, // set maximum height of editor
+
+	focus: true 
+
+	}); 
+
+	});
 </SCRIPT>
 </head>
 <body>
@@ -62,7 +87,7 @@ function check(){
                     </tr>
                     <tr>
                         <td width="20%" align="center">글내용</td>
-                        <td width="80%" align="left"><textarea rows="10" cols="60" name="content" class="ckeditor"></textarea></td>
+                        <td width="80%" align="left"><textarea rows="10" cols="60" name="content" id="summernote"></textarea></td>
                     </tr>
                     <tr>
                         <td width="20%" align="center">비밀번호</td>

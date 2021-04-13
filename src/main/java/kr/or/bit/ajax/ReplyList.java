@@ -38,14 +38,21 @@ public class ReplyList extends HttpServlet {
 			
 			PrintWriter out = response.getWriter();
 			
-			String tr = "<tr align='left'>";
-			
+			String tr = null;
+			int check = 0;
 			for(Reply list : replylist) {
+				tr += "<tr align='left'>";
 				tr += "<td width='80%'>["+ list.getWriter() + "] : " + list.getContent() ;
 				tr += "<br> 작성일 : " + list.getWritedate().toString();
-				tr += "</td></tr>";
+				tr += "</td><td><form action='/ReplyDelete' method='GET' name='replyDel'>";
+				tr += "<input type='hidden' name='no' value='" +  list.getNo()  + "'><input type='hidden' name='idx' value='" + list.getIdx_fk() +"'>password :<input type='password' name='delPwd' size='4'><input type='button' value='삭제' onclick='ReplyDelete(this.form)'>";
+				tr += "</form></td></tr>";
 			}
-			tr += "</td></tr>";
+			
+			if(tr == null) {
+				tr = "<tr align='center'><td width='80%'>댓글이 없습니다.</td></tr>";
+			}
+			
 			
 			out.print(tr);
 		} catch (NamingException e) {

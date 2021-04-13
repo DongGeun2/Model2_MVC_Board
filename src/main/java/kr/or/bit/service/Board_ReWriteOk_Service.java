@@ -1,8 +1,14 @@
 package kr.or.bit.service;
 
+import java.io.IOException;
+import java.util.Enumeration;
+
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.or.bit.action.Action;
 import kr.or.bit.action.ActionForward;
@@ -13,24 +19,44 @@ public class Board_ReWriteOk_Service implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) {
-		int idx = Integer.parseInt(request.getParameter("idx"));
-		String writer = request.getParameter("writer");
-		String subject = request.getParameter("subject");
-		String content = request.getParameter("content");
-		String email = request.getParameter("email");
-		String homepage = request.getParameter("homepage");
-		String filename = request.getParameter("filename");
-		String pwd = request.getParameter("pwd"); 
+		String uploadpath = request.getSession().getServletContext().getRealPath("upload");
 		
-		String cpage = request.getParameter("cp"); //current page
-		String pagesize = request.getParameter("ps"); //pagesize
+		int size = 1024*1024*10; //10M 네이버 계산기
+		MultipartRequest multi;
+		ActionForward actionForward = null;
 		
-	
-		Board board = new Board(idx, writer, pwd, subject, content, null, 0, filename, 0, homepage, email, 0, 0, 0);
-		
-		ActionForward actionForward = new ActionForward();
 		
 		try {
+			multi = new MultipartRequest(
+					request,
+					uploadpath, // 실 저장 경로 (배포된 경로)
+					size, // 10M
+					"UTF-8",
+					new DefaultFileRenamePolicy() // 파일 중복 (upload > 중복된 이름 변경)
+					);
+			
+			
+			Enumeration filenames = multi.getFileNames();
+			
+			String file = (String)filenames.nextElement();
+			
+			int idx = Integer.parseInt(multi.getParameter("idx"));
+			String writer = multi.getParameter("writer");
+			String subject = multi.getParameter("subject");
+			String content = multi.getParameter("content");
+			String email = multi.getParameter("email");
+			String homepage = multi.getParameter("homepage");
+			String filename = multi.getFilesystemName(file);
+			String pwd = multi.getParameter("pwd"); 
+			
+			String cpage = multi.getParameter("cp"); //current page
+			String pagesize = multi.getParameter("ps"); //pagesize
+			
+		
+			Board board = new Board(idx, writer, pwd, subject, content, null, 0, filename, 0, homepage, email, 0, 0, 0);
+			
+			actionForward = new ActionForward();
+			
 			BoardDao boardDao = new BoardDao();
 			int result = boardDao.reWriteOk(board);
 				
@@ -49,11 +75,10 @@ public class Board_ReWriteOk_Service implements Action {
 			    request.setAttribute("board_msg",msg);
 			    request.setAttribute("board_url", url);
 			    
-			    actionForward.setPath("/board/redirect.jsp");
-			    
-		} catch (NamingException e) {
+			    actionForward.setPath("/WEB-INF/views/board/redirect.jsp");
+		} catch (IOException | NamingException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 		
 		
