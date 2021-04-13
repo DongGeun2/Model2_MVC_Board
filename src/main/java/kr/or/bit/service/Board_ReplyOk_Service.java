@@ -34,15 +34,7 @@ public class Board_ReplyOk_Service implements Action {
 			//처리하는 코드
 		 	String msg="";
 		    String url="";
-		    
-		    if(result > 0){
-		    	msg ="댓글 입력 성공";
-		    	url ="/BoardContent.board?idx="+idx_fk;
-		    }else{
-		    	msg="댓글 입력 실패";
-		    	url ="/BoardContent.board?idx="+idx_fk;
-		    }
-		    
+		     
 		    actionForward.setPath("/board/redirect.jsp");
 		    
 		    request.setAttribute("board_msg",msg);

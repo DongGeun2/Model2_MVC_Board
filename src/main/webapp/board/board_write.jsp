@@ -7,7 +7,7 @@
 	<title>게시판 글쓰기</title>
 	<link rel="Stylesheet" href="<%=request.getContextPath()%>/style/default.css" />
 	<SCRIPT type="text/javascript">
-	
+
 function check(){
     if(!bbs.subject.value){
         alert("제목을 입력하세요");
@@ -42,7 +42,7 @@ function check(){
     <div id="pageContainer">
         <div style="padding-top: 25px; text-align: center">
             <!-- form 시작 ---------->
-            <form name="bbs" action="BoardWriteOk.board" method="POST">
+            <form name="bbs" action="BoardWriteOk.board" method="POST" enctype="multipart/form-data">
                 <table width="95%" border="2" align="center">
                     <tr>
                         <td width="20%" align="center">제목</td>

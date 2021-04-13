@@ -39,10 +39,10 @@ public class Board_ReWriteOk_Service implements Action {
 			    String url="";
 			    
 			    if(result > 0){
-			    	msg = "insert success";
+			    	msg = "게시물 답글 등록";
 			    	url = "/BoardList.board?cp=" + cpage + "&ps=" + pagesize;
 			    }else{
-			    	msg= "insert fail";
+			    	msg= "게시물 답글 등록 실패";
 			    	url= "/BoardList.board?cp=" + cpage + "&ps=" + pagesize;
 			    }
 			

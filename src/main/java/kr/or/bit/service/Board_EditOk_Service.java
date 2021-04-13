@@ -32,10 +32,10 @@ public class Board_EditOk_Service implements Action {
 			int result = boardDao.boardEdit(request);
 			
 		    if(result > 0){
-		    	msg = "edit success";
+		    	msg = "게시물 수정 성공";
 		    	url = "/BoardList.board";
 		    }else{
-		    	msg="edit fail";
+		    	msg="게시물 수정 실패";
 		    	url= "/BoardEdit.board?idx=" +idx;
 		    }
 			

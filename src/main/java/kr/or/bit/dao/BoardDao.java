@@ -53,8 +53,8 @@ public class BoardDao {
 			int refer = refermax + 1;
 			pstmt.setInt(8,refer);
 			
-			row = pstmt.executeUpdate();
 			
+			row = pstmt.executeUpdate();
 		}catch(Exception e) {
 			
 		}finally {

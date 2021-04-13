@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.or.bit.action.Action;
 import kr.or.bit.action.ActionForward;
-import kr.or.bit.service.Board_DeleteOk_Service;
 import kr.or.bit.service.Board_EditOk_Service;
 import kr.or.bit.service.Board_ReWriteOk_Service;
 import kr.or.bit.service.Board_ReplyDeleteOk_Service;
@@ -89,7 +88,7 @@ public class BoardConroller extends HttpServlet {
 			
 		// 게시판 삭제 확인	
 		}else if(URL.equals("/BoardDeleteOk.board")) {
-			action = new Board_DeleteOk_Service();
+			action = new Board_ReplyDeleteOk_Service();
 			actionForward = action.excute(request, response);
 		
 		// 답글 달기
